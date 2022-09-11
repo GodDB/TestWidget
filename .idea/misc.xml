@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout/app_interaction_widget.xml" value="0.1640625" />
         <entry key="app/src/main/res/layout/basic_widget.xml" value="0.1640625" />
         <entry key="app/src/main/res/xml/basic_widget_provider_info.xml" value="0.1640625" />
       </map>

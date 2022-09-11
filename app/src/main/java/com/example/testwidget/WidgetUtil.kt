@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.widget.RemoteViews
+import androidx.annotation.LayoutRes
 
 object WidgetUtil {
 
@@ -36,20 +37,21 @@ object WidgetUtil {
     private fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
 
-    fun AppWidgetManager.getRemoteView(context: Context, widgetId: Int): RemoteViews {
+    fun getRemoteView(context: Context, @LayoutRes layout: Int): RemoteViews {
         return RemoteViews(
             context.packageName,
-            this.getAppWidgetInfo(widgetId).initialLayout
+            layout
         )
     }
 
-    inline fun AppWidgetManager.updateRemoteView(
+    inline fun updateRemoteView(
         context: Context,
         widgetId: Int,
+        @LayoutRes layout: Int,
         onUpdate: RemoteViews.() -> Unit
     ) {
-        val remoteView = getRemoteView(context, widgetId)
+        val remoteView = getRemoteView(context, layout)
         remoteView.onUpdate()
-        updateAppWidget(widgetId, remoteView)
+        AppWidgetManager.getInstance(context).updateAppWidget(widgetId, remoteView)
     }
 }

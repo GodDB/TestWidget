@@ -30,6 +30,7 @@ class BasicWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
         showLog(context, "onUpdate")
+        Log.e("godgod", "${appWidgetIds?.map { it.toString() + ",   " }}")
         if (context != null && appWidgetManager != null && appWidgetIds != null) {
             setupWidget(context, appWidgetManager, appWidgetIds)
         }
@@ -42,9 +43,10 @@ class BasicWidgetProvider : AppWidgetProvider() {
     ) {
         appWidgetIds.forEach { widgetId ->
             val widgetSize = appWidgetManager.getWidgetsSize(context, widgetId)
-            appWidgetManager.updateRemoteView(
+            updateRemoteView(
                 context = context,
                 widgetId = widgetId,
+                layout = R.layout.basic_widget,
                 onUpdate = {
                     val buttonIntent = Intent(context, BasicWidgetProvider::class.java).apply {
                         action = WidgetEventType.BUTTON.name
@@ -67,7 +69,11 @@ class BasicWidgetProvider : AppWidgetProvider() {
         showLog(context, "onAppWidgetOptionsChanged")
         if (context != null && appWidgetManager != null) {
             val widgetSize = appWidgetManager.getWidgetsSize(context, appWidgetId)
-            appWidgetManager.updateRemoteView(context, appWidgetId) {
+            updateRemoteView(
+                context = context,
+                widgetId = appWidgetId,
+                layout = R.layout.basic_widget,
+            ) {
                 setTextViewText(R.id.btn_widget, "WIDGET 클릭 \n (${widgetSize.first}, ${widgetSize.second})")
             }
         }
@@ -96,6 +102,3 @@ class BasicWidgetProvider : AppWidgetProvider() {
 
 }
 
-enum class WidgetEventType {
-    BUTTON
-}
